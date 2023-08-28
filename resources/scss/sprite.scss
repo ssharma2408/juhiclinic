@@ -1,0 +1,93 @@
+$profiles: (
+  bandcamp: #4e9bac,
+  delicious: #248cff,
+  facebook: #3b5998,
+  ficly: #b51c2c,
+  flickr: #0063db
+);
+@each $n, $bgcolor in $profiles {
+  .profile-link--#{$n}:focus,
+  .profile-link--#{$n}:hover {
+    background: $bgcolor;
+  }
+}
+// for $1
+@for $i from 1 through 5 {
+ .box-#{$i}{
+   background: lighten(#0ff, $i*10 );
+ }
+}
+
+// each list
+$list: adam john wynn mason kuroir;
+@each $author in $list{
+  $e: index($list, $author);
+  .photo-#{$e}-#{$author}{
+    background: image-url("avatars/#{$author}.png");
+  }
+}
+
+$base-color: #ADDD8E;
+$class-slug: "item";
+
+.item {
+  display:inline-block;
+  width:50px;
+  height:50px;
+  margin:2px;
+}
+
+@function my-darken($amt){
+  @return darken($base-color,$amt * 3);
+}
+
+@for $i from 0 through 2 {
+  .#{$class-slug}-#{$i} {
+    background-color : my-darken($i);
+  }
+}
+$yellow:yellow;
+$blue:blue;
+
+
+@mixin label($text: "Code", $background: $yellow, $color: rgba(black, 0.5)) {
+  position: relative;
+  &:before{
+    background: $background;
+    color: $color;
+    content: $text;
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    height: 1rem;
+    left: 0;
+    letter-spacing: 0.1em;
+    line-height: 1rem;
+    padding: 0 0.5em;
+    position: absolute;
+    text-transform: uppercase;
+    top: 0;
+  }
+}
+
+div.highlighter-rouge{
+  @include label();
+  &.css{
+    @include label("CSS", $blue, white);
+  }
+  &.scss{
+    @include label("SCSS", #c69, white);
+  }
+  &.js{
+    @include label("js", #c69, white);
+  }
+}
+
+
+
+
+
+
+
+
+

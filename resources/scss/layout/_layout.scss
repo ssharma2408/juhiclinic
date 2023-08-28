@@ -1,0 +1,22 @@
+/*******************
+    header
+*******************/
+@import "header";
+/*******************
+    sidebar
+*******************/
+@import "sidebar";
+/*******************
+    Footer
+*******************/
+@import "footer";
+
+
+
+body{
+    background: linear-gradient(to bottom, rgba(1, 189, 178, 0.5) 10%, rgb(255, 255, 255) 50%);
+}
+
+.main-container {
+    padding-bottom:10px;
+}

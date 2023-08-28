@@ -1,0 +1,28 @@
+.form-control {
+  background: #FFFFFF;
+  border: 1px solid #01BDB2;
+  &:focus {
+    background: #FFFFFF;
+  }
+}
+
+.form-label {
+  color: $secondary;
+  font-size: 14px;
+}
+
+
+@include media-breakpoint-down(lg) {
+
+  [data-title] {
+    display: flex;
+    padding-bottom: 6px;
+    padding-top: 6px
+  }
+
+  [data-title]:before {
+    content: attr(data-title);
+  
+    flex: 1 1 auto !important;
+  }
+}

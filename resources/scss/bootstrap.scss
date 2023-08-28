@@ -1,0 +1,9 @@
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+:root,
+[data-bs-theme=light] {
+  --bs-body-bg: #fff !important;
+  --bs-border-color: #01BDB2;
+  --bs-list-group-border-color:#f8f9fa;
+  --bs-list-group-border-radius:10px;
+  --bs-border-radius: 20px;
+}

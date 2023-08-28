@@ -1,0 +1,34 @@
+.page-header {
+    margin: 1rem 0 1rem;
+    padding: 0;
+    border-radius: 7px;
+    position: relative;
+    min-height: 50px;
+}
+
+.page-title {
+    font-family: 'Jost', sans-serif;
+    color: $secondary;
+    margin-bottom: 5px;
+    margin-top: 0;
+    font-weight: bold;
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        margin: 0;
+        display: block;
+        position: relative;
+        font-size: 42px;
+        font-weight: 600;
+        @include media-breakpoint-down(lg) {
+            font-size: 32px;
+        }
+    }
+}
+
+.text-descripstion {
+    font-size: 15px;
+    margin-bottom: 20px;
+}

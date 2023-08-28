@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+/*
+Template Name: Dr. theme
+Author: maven.one
+File: master scss file
+
+//---------- TABLE OF CONTENTS ----------//
+
+	* Navigation
+*/
+
+
+/*******************
+    1.base
+*******************/
+@import "base/base";
+@import "bootstrap";
+/*******************
+    2.helper
+*******************/
+
+/*******************
+    3.layout
+*******************/
+@import "layout/layout";
+/*******************
+    4.component
+*******************/
+@import "components/component";
+body {
+    color: rgb(143, 139, 139);
+    font-size: 200px;
+}
+body {
+    color: $body-color;
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 1.5;
+    &.noScroll {
+        overflow: hidden;
+    }
+}
+
+
+
+

@@ -1,0 +1,19 @@
+.header-wrapper {
+    padding: 30px 0;
+}
+.navbar-toggle{
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    color: $secondary;
+    font-size:24px;
+    font-weight: 600;
+}
+.user-names {
+    padding-right: 10px;
+    text-align: right;
+    .user-name{
+        display: block;
+    }
+}
+

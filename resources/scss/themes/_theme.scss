@@ -1,0 +1,36 @@
+$secondary-rgba: rgba(172, 172, 180, 0.1);
+$primary :#01BDB2;
+$secondary :#142959;
+$success :#2dce89;
+$warning :#ecb403;
+$danger :#dc0441;
+$light :#5b6084;
+$dark :#5b6084;
+
+
+
+
+$primary-colors: (
+  "primary" :$primary ,
+  "secondary" :$secondary,
+  "success" :$success,
+  "warning" :$warning,
+  "danger" :$danger,
+  "light" :$light,
+  "default" :$dark,
+);
+
+@each $color-name,
+$color-code in $primary-colors {
+  .#{$color-name}-text {
+    color: $color-code;
+  }
+
+  .#{$color-name}-bg {
+    background: $color-code;
+  }
+
+  .border-#{$color-name} {
+    border-color: $color-code;
+  }
+}

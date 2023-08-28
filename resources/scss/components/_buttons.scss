@@ -1,0 +1,121 @@
+/* Mixins */
+@mixin btn-theme($btn-color) {
+  background: $btn-color;
+  border-color: ($btn-color);
+  color: #fff;
+
+  &:hover {
+    color: #fff;
+    background: darken($btn-color, 10%);
+    border-color: darken($btn-color, 10%);
+  }
+}
+
+@mixin btn-outline-theme($btn-color) {
+  background: transparent;
+  border-color: ($btn-color);
+  color: $btn-color;
+
+  &:hover {
+    color: #fff;
+    background: darken($btn-color, 10%);
+    border-color: darken($btn-color, 10%);
+  }
+}
+
+@each $color-name,
+$color-code in $primary-colors {
+  .btn-#{$color-name} {
+    @include btn-theme($color-code);
+
+    &.btn.disabled,
+    &.btn:disabled {
+      opacity: 0.65;
+      pointer-events: none;
+    }
+  }
+
+  .btn-outline-#{$color-name} {
+    @include btn-outline-theme($color-code);
+
+    &.btn.disabled,
+    &.btn:disabled {
+      opacity: 0.65;
+      pointer-events: none;
+    }
+  }
+}
+.btn{
+  --bs-btn-padding-x: 30px;
+  --bs-btn-padding-y: 10px;
+  --bs-btn-font-size: 14px;
+  &-sm {
+    --bs-btn-padding-x: 30px;
+    --bs-btn-padding-y: 6px;
+    --bs-btn-font-size: 12px;
+    --bs-border-radius-sm:30px;
+  }
+}
+
+
+.btn.btn-square {
+  @include border-radius(0);
+}
+
+.btn.btn-rounded {
+  @include border-radius(32px);
+}
+
+.btn-round {
+  @include border-radius(100%);
+}
+
+
+
+.btn .ri {
+  vertical-align: middle;
+}
+
+.btn-loading {
+  color: transparent !important;
+  pointer-events: none;
+  position: relative;
+
+  &:after {
+    content: "";
+    -webkit-animation: loader 500ms infinite linear;
+    animation: loader 500ms infinite linear;
+    border: 2px solid $white;
+    border-radius: 50%;
+    border-right-color: transparent !important;
+    border-top-color: transparent !important;
+    display: block;
+    height: 1.4em;
+    width: 1.4em;
+    position: absolute;
+    left: calc(50% - (1.4em / 2));
+    top: calc(50% - (1.4em / 2));
+    -webkit-transform-origin: center;
+    transform-origin: center;
+    position: absolute !important;
+  }
+
+  &.btn-sm:after {
+    height: 1em;
+    width: 1em;
+    left: calc(50% - (1em / 2));
+    top: calc(50% - (1em / 2));
+  }
+}
+
+.btn-group-sm>.btn-loading.btn:after {
+  height: 1em;
+  width: 1em;
+  left: calc(50% - (1em / 2));
+  top: calc(50% - (1em / 2));
+}
+
+.btn-list>.btn,
+.btn-list>.dropdown {
+  margin-bottom: .5rem;
+}

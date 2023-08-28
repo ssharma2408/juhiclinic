@@ -1,0 +1,20 @@
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+    list-style: none;
+    border-radius: 3px;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.page-header .breadcrumb {
+    padding:0;
+    background:transparent;
+   .breadcrumb-item {
+       a{ color: #4e5d71;}
+        &.active {
+            color: #151d2e;
+        }
+    }
+}

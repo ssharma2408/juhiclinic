@@ -1,0 +1,90 @@
+// Generate alert modifier classes
+// @for $i from 1 through 12 {  
+//     .col-#{$i} {
+//         width:(100%/12* $i)
+//     }  
+//   }   
+
+// $icons: star "\2605", lightning "\26A1";
+// @each $icon in $icons {
+//   $key: nth($icon, 1);
+//   $value: nth($icon, 2);
+//   .icon-#{$key} {
+//     @extend .icon;
+//     &:after {
+//       content: $value;
+//     }
+//   }
+// }
+
+// $colors: (
+//   primary: #FFBB00,
+//   secondary: #0969A2
+// );
+// h1 { color: map-get($colors, secondary); 
+//     background: map-get($map:$colors , $key:secondary );
+// }
+// @mixin themable($theme-name, $container-bg, $left-bg, $right-bg, $innertext, $button-bg) {
+//    .#{$theme-name} {
+//        .container {
+//            background-color: $container-bg;
+//            border: 1px solid #000;
+//            display: flex;
+//            height: 500px;
+//            justify-content: space-between;
+//            margin: 0 auto;
+//            padding: 1em;
+//            width: 50%;
+//            * {
+//                color: $innertext;
+//                font-size: 2rem;
+//            }
+
+//            .left {
+//                background-color: $left-bg;
+//                height: 100%;
+//                width: 69%;
+//            }
+
+//            .right {
+//                background-color: $right-bg;
+//                height: 100%;
+//                position: relative;
+//                width: 29%;
+//            }
+
+//            .button {
+//                background-color: $button-bg;
+//                border: 0;
+//                border-radius: 10px;
+//                bottom: 10px;
+//                cursor: pointer;
+//                font-size: 1rem;
+//                font-weight: bold;
+//                padding: 1em 2em;
+//                position: absolute;
+//                right: 10px;
+//            }
+//        }
+//    }
+// }
+// @include themable(theme-1, #f7eb80, #497265, #82aa91, #fff, #bc6a49);
+// @include themable(theme-2, #e4ada7, #d88880, #cc6359, #fff, #481b16);
+//   $sizes: small 5px, medium 10px, large 20px;
+//   $directions: up right down left;
+//   @mixin carrot($size, $color, $direction) {
+//     width: 0;
+//     height: 0;
+//     border: $size solid transparent;
+//     @if $direction == 'down' { border-top: $size solid $color; }
+//     @if $direction == 'up' { border-bottom: $size solid $color; }
+//     @if $direction == 'left' { border-right: $size solid $color; }
+//     @if $direction == 'right' { border-left: $size solid $color; }
+// }
+//   @each $size in $sizes {
+//     @each $direction in $directions {
+//         .carrot-#{$direction}-#{nth($size, 1)} {
+//             @include carrot(nth($size,2), #fff, $direction);
+//         }
+//     }
+//   }

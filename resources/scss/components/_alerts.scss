@@ -1,0 +1,18 @@
+$message: (
+  error: ( #dc0441, #666, 10px,),
+  success: ( #2dce89, #fff,10px,),
+  warning: ( #ecb403, #fff,10px 20px,),
+);
+.alert {
+  display: block;
+  @each $alert, $color in $message {
+    $bgcolor: nth($color, 1);
+    $fontcolor: nth($color, 2);
+    $padding: nth($color, 3);
+    &-#{$alert} {
+      background: $bgcolor;
+      color: $fontcolor;
+      padding: $padding;
+    }
+  }
+}
