@@ -12,8 +12,8 @@ Patient Booking
 
 @endsection
 <?php 
-	date_default_timezone_set($_ENV['TIMEZONE']);
-	$timezone = $_ENV['TIMEZONE'];
+	date_default_timezone_set("Asia/Kolkata");
+	$timezone = 'Asia/Kolkata';
 ?>
 				
 @section('content')
