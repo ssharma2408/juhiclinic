@@ -44,10 +44,11 @@ Patient Booking
 		@else
 			@if($is_booked[$member->id]['status'] != 0)
 				<div class="token_details row gy-2 row-cols-1" id="token_details_{{$member->id}}">
-					<div>
-						Current token: <b>{{$is_booked[$member->id]['current_token']}}</b></div>
-					<div>
+					<div>						
 						Your token number is <b>{{$is_booked[$member->id]['token_number']}}</b>
+					</div>
+					<div>
+						Current token: <b>{{$is_booked[$member->id]['current_token']}}</b> 
 						@if($is_booked[$member->id]['current_token'] != "Not Started")
 							and estimated time is <b>{{$is_booked[$member->id]['estimated_time']}}</b>
 						@endif
@@ -94,10 +95,10 @@ Patient Booking
 			success: function(data) {
 				if (data.success) {
 					$("#doc_"+doc_id+"_"+slot_id+"_"+patient_id).hide();
-					$html = "<div class='alert alert-success alert-dismissible fade show'>" + data.msg + "</div><div>Current token:" + data.token.current_token + "<b></b></div><div>Your token number is <b>" + data.token.token_number + "</b>";
+					$html = "<div class='alert alert-success alert-dismissible fade show'>" + data.msg + "</div><div>Your token number is <b>" + data.token.token_number + "</b></div><div>Current token: <b>" + data.token.current_token + "</b>";
 
 					if(data.token.current_token != "Not Started"){
-						$html += "and estimated time is <b>" + data.token.estimated_time + "</b>";
+						$html += " and estimated time is <b>" + data.token.estimated_time + "</b>";
 					}
 					$html += "</div><div><button class='btn btn-secondary btn-rounded btn-sm refresh_status' id='doc_" + doc_id + "_" + slot_id + "_" + patient_id +"' type='button'>Refresh</button></div>";
 					
@@ -121,10 +122,10 @@ Patient Booking
 			success: function(data) {
 				if (data.success) {
 					$("#doc_"+doc_id+"_"+slot_id+"_"+patient_id).hide();
-					$html = "<div>Current token:" + data.token.current_token + "<b></b></div><div>Your token number is <b>" + data.token.token_number + "</b>";
+					$html = "<div>Your token number is <b>" + data.token.token_number + "</b></div><div>Current token: <b>" + data.token.current_token + "</b>";
 
 					if(data.token.current_token != "Not Started"){
-						$html += "and estimated time is <b>" + data.token.estimated_time + "</b>";
+						$html += " and estimated time is <b>" + data.token.estimated_time + "</b>";
 					}
 
 					$html += "</div><div><button class='btn btn-secondary btn-rounded btn-sm refresh_status' id='doc_" + doc_id + "_" + slot_id + "_" + patient_id +"' type='button'>Refresh</button></div>";

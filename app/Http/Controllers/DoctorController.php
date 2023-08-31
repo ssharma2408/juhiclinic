@@ -50,6 +50,8 @@ class DoctorController extends Controller
 	
 	public function current_appointments()
     {
+		date_default_timezone_set("Asia/Kolkata");
+		
 		$theUrl     = config('app.api_url').'v1/tokens/'.$_ENV['CLINIC_ID'].'/'.Session::get('user_details')->user_id;
 		$response   = Http ::withHeaders([
             'Authorization' => 'Bearer '.Session::get('user_details')->token 
@@ -60,6 +62,7 @@ class DoctorController extends Controller
 		$patient_arr = [];
 		
 		foreach($patients as $patient){
+			$patient->estimated_time = date('h:i a', $patient->estimated_time);
 			$patient_arr[$patient->start_hour."-".$patient->end_hour]['patients'][] = $patient;
 			$patient_arr[$patient->start_hour."-".$patient->end_hour]['is_started'] = $patient->is_started;
 			$patient_arr[$patient->start_hour."-".$patient->end_hour]['slot_id'] = $patient->timing_id;

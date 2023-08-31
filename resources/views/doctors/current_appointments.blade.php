@@ -17,14 +17,16 @@
 <!-- page-title end -->
 <!-- balance start -->
 @if(!empty($patient_arr))
+	@php($i = 1)
 	@foreach($patient_arr as $slot=>$patients)
-		<div class="section-title pt-0 mb-2 row d-flex justify-content-between align-items-center">
-			<h1 class="title col-auto">Current Appointments</h1>
-			<button class="btn btn-primary work_status" id="work_status_{{$patients['slot_id']}}" @if($patients['is_started']) disabled @endif>{{($patients['is_started']) ? 'Started ...' : 'Start' }}</button>
-			<div class="text-descripstion secondary-text mb-0 col-auto">
-				Slot: {{$slot}}
+		<div class="slot_container" id="slot_container_{{$i}}">
+			<div class="section-title pt-0 mb-2 row d-flex justify-content-between align-items-center">
+				<h1 class="title col-auto">Current Appointments</h1>
+				<button class="btn btn-primary work_status" id="work_status_{{$patients['slot_id']}}" @if($patients['is_started']) disabled @endif>{{($patients['is_started']) ? 'Started ...' : 'Start' }}</button>
+				<div class="text-descripstion secondary-text mb-0 col-auto">
+					Slot: {{$slot}}
+				</div>
 			</div>
-		</div>
 		@foreach($patients['patients'] as $patient)
 			<form class="taken_frm" method="post" enctype="multipart/form-data" id="frm_{{$patient->id}}">
 				@csrf
@@ -32,7 +34,7 @@
 					<div class="card-body">
 						<div class="d-flex">
 							<div class="ms-auto fw-bold secondary-text">
-								Token : {{$patient->token_number}}
+								Approx Time : {{$patient->estimated_time}} Token : {{$patient->token_number}}
 							</div>
 						</div>
 						<div class="single-goal single-goal-one">
@@ -100,6 +102,8 @@
 				</div>				
 			</form>
 		@endforeach
+		</div>
+		@php($i++)
 	@endforeach
 	<input type="hidden" name="timer" id="timer" value="0" />
 @else
@@ -124,10 +128,12 @@
 		$(".patient_msg").hide();
 		$(".next_visit").hide();
 		$("#loader_div").hide();		
-		$("#timer").val(0);		
+		$("#timer").val(0);
+		$(".btn_update").attr("disabled" , true);
 		
 		$(".work_status").each(function() {
 			if($( this ).text() == "Started ..."){
+				$(this).parent().parent().find(".btn_update").attr("disabled", false);
 				startTimer();
 			}
 		});
@@ -174,9 +180,9 @@
 							  function() 
 							  {
 								$('#'+frm_id).hide('slow', function(){ $('#'+frm_id).remove(); });								
-							  }, 2000);
-							  startTimer();
-						}							  
+							  }, 2000);							  
+						}
+						startTimer();
 					} else {
 						$html = "<div>There is a technical error or change token status.</div>"
 						$("#msg_" + token_id + "").show().html($html);
@@ -205,15 +211,20 @@
 	}
 	
 	$(".work_status").click(function (){
-		$(this).text("Started ...").attr('disabled', true);
+		$(this).text("Started ...").attr('disabled', true);		
+		var ele_id = $(this).parent().parent().attr("id").split("_")[2];
+		
 		var slot_id = $(this).attr('id').split("_")[2];
 		$.ajax({
 				url: '/doctor_dashboard/start-slot/'+slot_id+'/'+1,
 				type: 'GET',				
 				success: function(data) {
 					if (data.success) {
+						
+						$("#slot_container_"+ele_id).find(".btn_update").attr("disabled", false);
 						$(this).text("Started ...").attr('disabled', true);
 						startTimer();
+						
 					} else {
 						$(this).text("Start").attr('disabled', false);
 					}
