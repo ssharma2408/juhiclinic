@@ -132,7 +132,7 @@ class PatientController extends Controller
             'Authorization' => 'Bearer '.Session::get('user_details')->token 
         ])->get($theUrl);
 
-		$details = json_decode($response->body())->data;		
+		$details = json_decode($response->body())->data;
 
 		return view('patients.profile', compact('details'));
     }
@@ -159,5 +159,33 @@ class PatientController extends Controller
 		$status = json_decode($response->body());
 
 		return redirect()->route('patient.profile')->with('success', "Profile updated successfully");
+	}
+	
+	public function history()
+	{
+		$theUrl     = config('app.api_url').'v1/patient_history/'.Session::get('user_details')->family_id;
+		$response   = Http ::withHeaders([
+            'Authorization' => 'Bearer '.Session::get('user_details')->token 
+        ])->get($theUrl);
+
+		$details = json_decode($response->body())->data;
+		return view('patients.history', compact('details'));
+	}
+	
+	public function get_history(Request $request)
+	{
+		$theUrl     = config('app.api_url').'v1/get_history';
+		$response   = Http ::withHeaders([
+            'Authorization' => 'Bearer '.Session::get('user_details')->token 
+        ])->post($theUrl, $request->all());
+		
+		$status = json_decode($response->body());		
+
+		if(isset($status->data)){
+			return response()->json(array('success'=>1, 'details'=>$status->data), 200);
+		}else{
+			$msg = "No records found or there is a technical error, please try after sometime";
+			return response()->json(array('success'=>0,'msg'=> $msg, 'token'=>""), 200);
+		}
 	}
 }

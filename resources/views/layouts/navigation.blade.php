@@ -28,6 +28,7 @@
 			@else
 				<li><a href="{{route('patient.dashboard')}}"><i class="ri-dashboard-line"></i><span> Home</span></a></li>
 				<li><a href="{{route('family.index')}}"><i class="ri-parent-line"></i><span> My Family</span></a></li>
+				<li><a href="{{route('patient.history')}}"><i class="ri-history-line"></i><span> History</span></a></li>
 				<li><a href="{{route('patient.profile')}}"><i class="ri-profile-line"></i><span> Profile</span></a></li>
 
 			@endif

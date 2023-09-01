@@ -108,6 +108,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 		Route::get('/book-appointment/{doctor_id}/{slot_id}/{patient_id}', 'PatientController@book_appointment')->name('patient.book_appointment');
 		Route::get('/refresh-status/{doctor_id}/{slot_id}/{patient_id}', 'PatientController@refresh_status')->name('patient.refresh_status');
 		Route::get('/page/{id}', 'PatientController@page')->name('patient.page');
+		Route::get('/history', 'PatientController@history')->name('patient.history');	
+		Route::post('/history', 'PatientController@get_history')->name('patient.get.history');	
 		Route::get('/profile', 'PatientController@profile')->name('patient.profile');
 		Route::post('/profile', 'PatientController@profile_update')->name('patient.profile.update');
 	});
