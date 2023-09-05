@@ -52,7 +52,11 @@ Patient Booking
 							@if($is_booked[$member->id]['current_token'] != "Not Started" && $is_booked[$member->id]['message'] =="")
 								Current token: <b>{{$is_booked[$member->id]['current_token']}}</b> and estimated time is <b>{{$is_booked[$member->id]['estimated_time']}}</b>
 							@else
-								Message: <b>{{$is_booked[$member->id]['message']}}</b>
+								@if($is_booked[$member->id]['current_token'] == "Not Started")
+									Current token: <b>{{$is_booked[$member->id]['current_token']}}</b>
+								@else
+									Message: <b>{{$is_booked[$member->id]['message']}}</b>
+								@endif
 							@endif
 						</div>
 						<div>
@@ -105,7 +109,11 @@ Patient Booking
 					if(data.token.current_token != "Not Started" && data.token.message == ""){
 						$html += "Current token: <b>" + data.token.current_token + "</b> and estimated time is <b>" + data.token.estimated_time + "</b>";
 					}else{
-						$html += "Message: <b>"+data.token.message+"</b>";
+						if(data.token.current_token == "Not Started"){
+							$html += "Current token: <b>" + data.token.current_token + "</b>";
+						}else{
+							$html += "Message: <b>"+data.token.message+"</b>";
+						}
 					}
 					$html += "</div><div><button class='btn btn-secondary btn-rounded btn-sm refresh_status' id='doc_" + doc_id + "_" + slot_id + "_" + patient_id +"' type='button'>Refresh</button></div>";
 					
@@ -134,7 +142,11 @@ Patient Booking
 					if(data.token.current_token != "Not Started" && data.token.message == ""){
 						$html += "Current token: <b>" + data.token.current_token + "</b> and estimated time is <b>" + data.token.estimated_time + "</b>";
 					}else{
-						$html += "Message: <b>"+data.token.message+"</b>";
+						if(data.token.current_token == "Not Started"){
+							$html += "Current token: <b>" + data.token.current_token + "</b>";
+						}else{
+							$html += "Message: <b>"+data.token.message+"</b>";
+						}
 					}
 
 					$html += "</div><div><button class='btn btn-secondary btn-rounded btn-sm refresh_status' id='doc_" + doc_id + "_" + slot_id + "_" + patient_id +"' type='button'>Refresh</button></div>";
