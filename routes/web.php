@@ -76,6 +76,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 		Route::resource('timings', 'TimingController');
 		Route::post('timings-save', 'TimingController@save')->name('timings.save');
 		Route::post('/update-token', 'DoctorController@update_token')->name('doctor.update_token');
+		Route::post('/process_pause', 'DoctorController@process_pause')->name('doctor.process_pause');
 		Route::get('/profile', 'DoctorController@profile')->name('doctor.profile');
 		Route::post('/profile', 'DoctorController@profile_update')->name('doctor.profile.update');
 		Route::get('/start-slot/{slot_id}/{status}', 'DoctorController@start_slot')->name('doctor.start.slot');

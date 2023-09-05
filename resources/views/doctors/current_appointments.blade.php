@@ -23,6 +23,21 @@
 			<div class="section-title pt-0 mb-2 row d-flex justify-content-between align-items-center">
 				<h1 class="title col-auto">Current Appointments</h1>
 				<button class="btn btn-primary work_status" id="work_status_{{$patients['slot_id']}}" @if($patients['is_started']) disabled @endif>{{($patients['is_started']) ? 'Started ...' : 'Start' }}</button>
+				<button class="btn btn-secondary pause" id="pause_{{$patients['slot_id']}}">Pause or discard tokens</button>
+				<form class="pause_frm" id="pause_frm_{{$patients['slot_id']}}">
+					<div class="pause_action_container text-center" id="pause_action_container_{{$patients['slot_id']}}">
+						<input type="radio" class="" value="pause" name="pause_type" required />Pause
+						<input type="radio" class="" value="discard" name="pause_type" required />Diascrd All Tokens
+						<div>
+							<textarea name="message" class="" rows="3" cols="50" placeholder="Pause or discard reason" required></textarea>
+						</div>
+						<div>
+							<button type="submit" class="btn btn-primary" id="pause_action_{{$patients['slot_id']}}">Save</button>
+							<input type="hidden" name="slot_id" value="{{$patients['slot_id']}}" />
+							<div class="slot_msg text-danger small" id="slot_msg_{{$patients['slot_id']}}"></div>
+						</div>
+					</div>
+				</form>
 				<div class="text-descripstion secondary-text mb-0 col-auto">
 					Slot: {{$slot}}
 				</div>
@@ -129,11 +144,15 @@
 		$(".next_visit").hide();
 		$("#loader_div").hide();		
 		$("#timer").val(0);
+		$(".pause").hide();
+		$(".pause_frm").hide();
 		$(".btn_update").attr("disabled" , true);
 		
 		$(".work_status").each(function() {
 			if($( this ).text() == "Started ..."){
 				$(this).parent().parent().find(".btn_update").attr("disabled", false);
+				var slot_id = $(this).attr("id").split("_")[2];
+				$("#pause_"+slot_id).show();
 				startTimer();
 			}
 		});
@@ -213,6 +232,7 @@
 	$(".work_status").click(function (){
 		$(this).text("Started ...").attr('disabled', true);		
 		var ele_id = $(this).parent().parent().attr("id").split("_")[2];
+		var pause_id = $(this).next(".pause").attr("id");		
 		
 		var slot_id = $(this).attr('id').split("_")[2];
 		$.ajax({
@@ -223,16 +243,66 @@
 						
 						$("#slot_container_"+ele_id).find(".btn_update").attr("disabled", false);
 						$(this).text("Started ...").attr('disabled', true);
+						$("#"+pause_id).show();
+						location.reload(true)
 						startTimer();
 						
 					} else {
 						$(this).text("Start").attr('disabled', false);
+						$("#"+pause_id).hide();
 					}
 				},
 				cache: false,
 				contentType: false,
 				processData: false
 			});
+	});
+	
+	$(".pause").click(function(){
+		var pause_id = $(this).attr("id").split("_")[1];
+		
+		$("#pause_frm_"+pause_id).toggle();
+		$("#slot_msg_"+pause_id).html("");
+	});
+	
+	$("form.pause_frm").submit(function(e) {
+		var frm_id = $(this).attr('id').split("_")[2];
+		
+		e.preventDefault();
+		var formData = new FormData(this);		
+		var ele_id = $(this).parent().parent().attr("id").split("_")[2];
+		$("#loader_div").show();
+		$.ajax({
+			url: '/doctor_dashboard/process_pause',
+			type: 'POST',
+			data: formData,
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			success: function(data) {
+				$("#loader_div").hide();
+				if (data.success) {
+					$("#slot_msg_"+frm_id).html(data.msg);
+					if(data.pause_type == "discard"){
+						var html = '<div class="section-title pt-0 mb-2 row d-flex justify-content-between align-items-center"><h1 class="title">Current Appointments</h1>		<div class="text-descripstion text-center mt-4 secondary-text">All tokens are discarded successfully</div></div>';
+						$("#pause_frm_"+frm_id).parent().parent().html(html);
+					}else{
+						setTimeout(
+						  function() 
+						  {
+							$('#work_status_'+frm_id).text("Start").attr("disabled" , false);
+							$("#slot_container_"+ele_id).find(".btn_update").attr("disabled", true);
+							$('#pause_'+frm_id).hide();
+							$('#pause_frm_'+frm_id).hide();
+						  }, 2000);	
+					}
+				} else {
+					$("#slot_msg_"+frm_id).html("There is a technical error, please try after sometime");
+				}
+			},
+			cache: false,
+			contentType: false,
+			processData: false
+		});
+		
 	});
 	
 </script>

@@ -117,7 +117,7 @@ class PatientController extends Controller
 			$res = json_decode($response->body());			
 
 			if(!empty($res)){
-				$res->data->estimated_time = date('h:i a', $res->data->estimated_time);
+				$res->data->estimated_time = isset($res->data->estimated_time) ? date('h:i a', $res->data->estimated_time) : "";
 				$is_booked[$res->data->patient_id] = (array)$res->data;
 			}		
 		}

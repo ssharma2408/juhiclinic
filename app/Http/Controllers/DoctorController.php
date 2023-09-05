@@ -62,7 +62,7 @@ class DoctorController extends Controller
 		$patient_arr = [];
 		
 		foreach($patients as $patient){
-			$patient->estimated_time = date('h:i a', $patient->estimated_time);
+			$patient->estimated_time = $patient->is_started ? date('h:i a', $patient->estimated_time) : "NA";
 			$patient_arr[$patient->start_hour."-".$patient->end_hour]['patients'][] = $patient;
 			$patient_arr[$patient->start_hour."-".$patient->end_hour]['is_started'] = $patient->is_started;
 			$patient_arr[$patient->start_hour."-".$patient->end_hour]['slot_id'] = $patient->timing_id;
@@ -150,7 +150,7 @@ class DoctorController extends Controller
 
 				$response   = Http ::withHeaders([
 					'Authorization' => 'Bearer '.Session::get('user_details')->token 
-				])->post($theUrl, $post_arr);		
+				])->post($theUrl, $post_arr);
 				
 				$msg = "Status updated successfully.";
 				return response()->json(array('success'=>1, 'msg'=> $msg), 200);
@@ -251,7 +251,7 @@ class DoctorController extends Controller
 
 		}else{
 			return response()->json(array('success'=>0), 200);
-		}		
+		}
 	}
 
 	public function profile()
@@ -300,5 +300,37 @@ class DoctorController extends Controller
         ])->get($theUrl);
 		
 		return response()->json(array('success'=>1), 200);
+	}
+	
+	public function process_pause(Request $request)
+	{
+		if($request->pause_type == "" || $request->message == ""){
+			return false;
+		}
+		
+		$theUrl     = config('app.api_url').'v1/process_pause';
+		
+		
+		
+		$post_arr = [			
+			'slot_id'=>$request->slot_id,
+			'pause_type'=>$request->pause_type,
+			'message'=>$request->message
+		];
+
+		$response   = Http ::withHeaders([
+			'Authorization' => 'Bearer '.Session::get('user_details')->token 
+		])->post($theUrl, $post_arr);
+		
+		
+		if($response){			
+			$msg = $request->pause_type == "discard" ? "All tokens are discarded successfully" : "Tokens are paused successfully";
+			
+			return response()->json(array('success'=>1, 'msg'=>$msg, 'pause_type'=>$request->pause_type), 200);
+
+		}else{
+			return response()->json(array('success'=>0), 200);
+		}		
+		
 	}
 }

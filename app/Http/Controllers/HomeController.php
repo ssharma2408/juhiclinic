@@ -29,9 +29,20 @@ class HomeController extends Controller
 		$doctor_arr = [];		
 		
 		foreach($doctors as $doctor){			
+			
+			$current_token = $doctor->current_token;
+			
+			if($doctor->is_paused){
+				$current_token = $doctor->message;
+			}
+			
+			if(!$doctor->is_started && $doctor->message == ""){
+				$current_token = "Not Started";
+			}
+			
 			$doctor_arr[$doctor->id]['id'] = $doctor->id;
 			$doctor_arr[$doctor->id]['name'] = $doctor->name;
-			$doctor_arr[$doctor->id]['timings'][$doctor->day][] = array('start_hour'=>$doctor->start_hour, 'end_hour'=>$doctor->end_hour, 'slot_id'=>$doctor->slot_id, 'total_token'=>$doctor->total_token, 'current_token'=>(!$doctor->is_started) ? "Not Started" : $doctor->current_token);
+			$doctor_arr[$doctor->id]['timings'][$doctor->day][] = array('start_hour'=>$doctor->start_hour, 'end_hour'=>$doctor->end_hour, 'slot_id'=>$doctor->slot_id, 'total_token'=>$doctor->total_token, 'current_token'=> $current_token);
 		}
 		
 		$theUrl     = config('app.api_url').'announcements/'.$_ENV['CLINIC_ID'];
