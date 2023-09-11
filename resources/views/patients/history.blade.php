@@ -79,8 +79,12 @@
 								var visit_date = new Date(value.visit_date).toDateString();
 								var comment = (value.comment != null) ? value.comment : "-";
 								var next_visit_date = (value.next_visit_date != null) ? new Date(value.next_visit_date).toDateString() : "-";
+								var presc_html = "";
+								$.each(value.prescription.split(","), function(ind, val){
+									presc_html += '<img class="zoom" src="'+val+'" height="100" width="100" />';
+								});
 								
-								html += '<li class="list-group-item"><div class="row justify-content-between align-items-center"><div class="col-4">'+visit_date+'</div><div class="col-4"><img class="zoom" src="'+value.prescription+'" height="100" width="100" /></div><div class="col-2">'+comment+'</div><div class="col-2">'+next_visit_date+'</div></div></li>';
+								html += '<li class="list-group-item"><div class="row justify-content-between align-items-center"><div class="col-4">'+visit_date+'</div><div class="col-4">'+presc_html+'</div><div class="col-2">'+comment+'</div><div class="col-2">'+next_visit_date+'</div></div></li>';
 							});
 							
 							html += '</ul>';

@@ -78,17 +78,21 @@ class DoctorController extends Controller
 			if($request->is_online){
 				//process close token
 				if ($request->hasFile('prescription')) {			
-
-					//Upload file to S3 Bucket and set path to Prescription
-					$extension  = request()->file('prescription')->getClientOriginalExtension();
-					$image_name = time() .'_' . $request->patient_id . '.' . $extension;
-					$path = $request->file('prescription')->storeAs(
-						'patient_'.$request->patient_id,
-						$image_name,
-						's3'
-					);
-					$aws_path = Storage::disk('s3')->url($path);
 					
+					$prescriptions = [];
+					
+					foreach(request()->file('prescription') as $file){
+						//Upload file to S3 Bucket and set path to Prescription
+						$extension  = $file->getClientOriginalExtension();
+						$image_name = time() .'_' . $request->patient_id . '.' . $extension;
+						$path = $file->storeAs(
+							'patient_'.$request->patient_id,
+							$image_name,
+							's3'
+						);
+						$prescriptions[] = Storage::disk('s3')->url($path);
+					}					
+
 					$theUrl     = config('app.api_url').'v1/update_token';
 
 					$post_arr = [			
@@ -98,7 +102,7 @@ class DoctorController extends Controller
 						'status'=>$request->status,
 						'clinic_id'=>$_ENV['CLINIC_ID'],
 						'comment'=>$request->comment,
-						'prescription'=>$aws_path,
+						'prescription'=>implode(",", $prescriptions),
 						'is_online'=>$request->is_online,
 						'next_visit_date'=>$request->next_visit_date,
 						'time_taken'=>$request->time_taken,
@@ -224,6 +228,8 @@ class DoctorController extends Controller
         ])->get($theUrl);
 			
 		$history = json_decode($response->body())->data;
+		
+		$history->prescription = explode(",", $history->prescription);
 		
 		return response()->json(array('success'=>1, 'history'=>$history), 200);
 	}

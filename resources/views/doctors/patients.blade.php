@@ -105,9 +105,13 @@
 			success: function(data) {
 				$("#loader_div").hide();
 				if (data.success) {
+					var presc_html = "";
 					$("#p_name").text(data.history.patient.name);
 					$("#p_visitdate").text(data.history.visit_date);
-					$("#p_prescription").html('<img class="img-fluid" src ="' + data.history.prescription + '" />');
+					$.each(data.history.prescription, function(key, val){
+						presc_html += '<img class="img-fluid" src ="' + val + '" />';
+					});
+					$("#p_prescription").html(presc_html);
 					$("#p_comment").text(data.history.comment);
 					$('#historyModal').modal('show');
 					if(prev_id > 0){

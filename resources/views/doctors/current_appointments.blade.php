@@ -70,7 +70,7 @@
 
 									<div class="col-md-4 col-12 mt-2">
 										<label class="form-label">Prescription</label>
-										<input class="form-control" name="prescription" type="file" id="prescription_{{$patient->id}}">
+										<input class="form-control" name="prescription[]" type="file" id="prescription_{{$patient->id}}" multiple="multiple">
 									</div>
 									<div class="col-md-6 col-12 mt-2">
 										<label class="form-label">Comment</label>
