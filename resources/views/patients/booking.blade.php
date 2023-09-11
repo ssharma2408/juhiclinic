@@ -36,7 +36,7 @@ Patient Booking
 		<div class="details fw-bold secondary-text text-uppercase">
 		{{$member->name}}
 		</div>				
-		@if( ! array_key_exists($member->id, $is_booked) && ! $is_booked[$member->id]['is_tokens_discarded'])
+		@if( ! array_key_exists($member->id, $is_booked))
 			<div class="ms-auto">
 				 <button type="button" id="doc_{{$doctor->id}}_{{$slot_id}}_{{$member->id}}" class="btn btn-secondary btn-rounded btn-sm book">Book</button>
 			</div>
