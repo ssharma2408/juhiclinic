@@ -20,36 +20,47 @@ Patient Booking
 
 <!-- balance start -->
 
-<div class="section-title pt-0 mb-2 row d-flex justify-content-between align-items-center">
-	<h3 class="title col-auto">Members</h3>
-	<p class="text-descripstion secondary-text mb-0 col-auto" id="time"></p>
-</div>
+<div class="section-title py-0">
+	<div class="row d-flex justify-content-between align-items-center">
+		<div class="col-auto">
+			<h3 class="title">Members</h3>
+		</div>
+		<p class="text-descripstion secondary-text mb-0 col-auto" id="time"></p>
+	</div>
+	<h5 class="title">Book Appointment to Dr. {{$doctor->name}}</h5>
+	
 
-<div>
-	<h4>Book appointment to Dr. {{$doctor->name}}</h4>
 </div>
-
 @foreach($members->members as $member)
-
-<div class="card">
-	<div class="card-body d-flex">
-		<div class="details fw-bold secondary-text text-uppercase">
-		{{$member->name}}
-		</div>				
-		@if( ! array_key_exists($member->id, $is_booked))
-			<div class="ms-auto">
-				 <button type="button" id="doc_{{$doctor->id}}_{{$slot_id}}_{{$member->id}}" class="btn btn-secondary btn-rounded btn-sm book">Book</button>
+<div class="card my-2">
+	<div class="card-body">
+		<div class="d-flex align-items-center">
+			<div class="details fw-bold secondary-text text-uppercase mb-0">
+				{{$member->name}}
 			</div>
-			<div class="token_details row gy-2 row-cols-1" id="token_details_{{$member->id}}"></div>
+			<div class="ms-auto">
+				@if( ! array_key_exists($member->id, $is_booked))
+					<button type="button" id="doc_{{$doctor->id}}_{{$slot_id}}_{{$member->id}}" class="btn btn-secondary btn-rounded btn-sm book">Book</button>
+				@else
+					@if($is_booked[$member->id]['status'] != 0)
+					
+					@else
+						<div class="badge text-bg-danger ms-auto">Token closed</div>
+					@endif	
+				@endif	
+			</div>	
+		</div>
+			
+				@if( ! array_key_exists($member->id, $is_booked))
+			
+			<div class="token_details" id="token_details_{{$member->id}}"></div>
 		@else
 			@if($is_booked[$member->id]['status'] != 0)
 				@if( ! $is_booked[$member->id]['is_tokens_discarded'])
-					<div class="token_details row gy-2 row-cols-1" id="token_details_{{$member->id}}">
-						<div>						
+					<div class="token_details row gx-0" id="token_details_{{$member->id}}">
+						<div class="col-8 small">						
 							Your token number is <b>{{$is_booked[$member->id]['token_number']}}</b>
-						</div>
-						<div>						 
-							@if($is_booked[$member->id]['current_token'] != "Not Started" && $is_booked[$member->id]['message'] =="")
+							<p class="mb-1">@if($is_booked[$member->id]['current_token'] != "Not Started" && $is_booked[$member->id]['message'] =="")
 								Current token: <b>{{$is_booked[$member->id]['current_token']}}</b> and estimated time is <b>{{$is_booked[$member->id]['estimated_time']}}</b>
 							@else
 								@if($is_booked[$member->id]['current_token'] == "Not Started")
@@ -57,18 +68,16 @@ Patient Booking
 								@else
 									Message: <b>{{$is_booked[$member->id]['message']}}</b>
 								@endif
-							@endif
+							@endif</p>
 						</div>
-						<div>
+						<div class="col-auto ms-auto">
 							<button class='btn btn-secondary btn-rounded btn-sm refresh_status' id='doc_{{$doctor->id}}_{{$slot_id}}_{{$member->id}}' type='button'>Refresh</button>
 						</div>
 					</div>
-					<div>* Estimated time depends on doctor sign in time and clinic opening time.</div>
+					<div class="secondary-text small">* Estimated time depends on doctor sign in time and clinic opening time.</div>
 				@else
 					<b>{{$is_booked[$member->id]['message']}}</b>
 				@endif
-			@else
-				<div class="text-center">Token closed</div>
 			@endif	
 		@endif		
 	</div>	
@@ -104,7 +113,7 @@ Patient Booking
 			success: function(data) {
 				if (data.success) {
 					$("#doc_"+doc_id+"_"+slot_id+"_"+patient_id).hide();
-					$html = "<div class='alert alert-success alert-dismissible fade show'>" + data.msg + "</div><div>Your token number is <b>" + data.token.token_number + "</b></div><div>";
+					$html = "<div class='alert alert-success alert-dismissible fade show'>" + data.msg + "</div><div class='col-8'>Your token number is <b>" + data.token.token_number + "</b></div><div>";
 
 					if(data.token.current_token != "Not Started" && data.token.message == ""){
 						$html += "Current token: <b>" + data.token.current_token + "</b> and estimated time is <b>" + data.token.estimated_time + "</b>";
@@ -115,7 +124,7 @@ Patient Booking
 							$html += "Message: <b>"+data.token.message+"</b>";
 						}
 					}
-					$html += "</div><div><button class='btn btn-secondary btn-rounded btn-sm refresh_status' id='doc_" + doc_id + "_" + slot_id + "_" + patient_id +"' type='button'>Refresh</button></div>";
+					$html += "</div><div class='col-auto ms-auto'><button class='btn btn-secondary btn-rounded btn-sm refresh_status' id='doc_" + doc_id + "_" + slot_id + "_" + patient_id +"' type='button'>Refresh</button></div>";
 					
 					$("#token_details_" + patient_id).show().html($html);
 				} else {
@@ -137,7 +146,7 @@ Patient Booking
 			success: function(data) {
 				if (data.success) {
 					$("#doc_"+doc_id+"_"+slot_id+"_"+patient_id).hide();
-					$html = "<div>Your token number is <b>" + data.token.token_number + "</b></div><div>";
+					$html = "<div class='col-8'>Your token number is <b>" + data.token.token_number + "</b></div><div>";
 
 					if(data.token.current_token != "Not Started" && data.token.message == ""){
 						$html += "Current token: <b>" + data.token.current_token + "</b> and estimated time is <b>" + data.token.estimated_time + "</b>";
@@ -149,7 +158,7 @@ Patient Booking
 						}
 					}
 
-					$html += "</div><div><button class='btn btn-secondary btn-rounded btn-sm refresh_status' id='doc_" + doc_id + "_" + slot_id + "_" + patient_id +"' type='button'>Refresh</button></div>";
+					$html += "</div><div class='col-auto ms-auto'><button class='btn btn-secondary btn-rounded btn-sm refresh_status' id='doc_" + doc_id + "_" + slot_id + "_" + patient_id +"' type='button'>Refresh</button></div>";
 
 					$("#token_details_" + patient_id).html($html);
 				} else {

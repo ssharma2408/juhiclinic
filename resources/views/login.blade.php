@@ -9,19 +9,16 @@
 @section('content')
 
 <div class="text-center">
-    <div class="page-title">
+    <div class="page-title my-4">
         <h2> Welcome to {{$_ENV['DOMAIN']}}</h2>
     </div>
-    <div class="text-descripstion secondary-text">
-        <p>Lorem Ipsum is simply dummy text of the printing and <br>
-            typesetting industry. Lorem Ipsum has been </p>
-    </div>
+   
 </div>
 <div class="row">
     <div class="col-md-5 mx-auto">
         <div class="card-box text-center">
             <div class="section-title">
-                <h3 class="text-uppercase">Clinic Login</h3>
+                <h3 class="text-uppercase">Doctor / Staff login</h3>
                 <div class="text-descripstion secondary-text">
                 Please login to your account
             </div>

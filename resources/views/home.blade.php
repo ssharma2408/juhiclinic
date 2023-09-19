@@ -23,21 +23,22 @@
 @if (Session::has('user_details'))
 
 	<!-- balance start -->
-	<div class="balance-area pd-top-40 mg-top-50">
+	<div class="section-block">
 		<div class="container">
-			<div class="balance-area-bg balance-area-bg-home">
-				<div class="balance-title text-center">
-					<p>Welcome! <br> {{Session::get('user_details')->name}}</p>
+			<div class="balance-area-bg balance-area-bg-home text-center">
+				<div class="section-title">
+					<h3 class="title-lg">Welcome! {{Session::get('user_details')->name}}</h3>
 				</div>
+				@if (!Session::has('close_status'))
+					<a href="{{route('patient.login.show')}}" class="btn btn-secondary btn-rounded ">Book an Appointment</a>
+				@endif
 			</div>
 		</div>
 	</div>
 	<!-- balance End -->
-	@if (!Session::has('close_status'))
-		<a href="{{route('patient.login.show')}}" class="btn btn-secondary btn-rounded ">Book an Appointment</a>
-	@endif
+	
 	<!-- transaction start -->
-	<div class="transaction-area pd-top-36">
+	<!-- <div class="transaction-area pd-top-36">
 		<div class="container">
 			<div class="section-title">
 				<h3 class="title">My Dashboard</h3>
@@ -59,9 +60,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<!-- transaction End -->
-
 @else
 	<div class="section-block my-5">
 		<div class="row">
@@ -102,7 +102,7 @@ $day = date( 'N' );
 		@foreach($doctor_arr as $doctor)
 			@if(isset($doctor['timings'][$day]))
 				<li class="list-group-item">
-					<div class="row justify-content-between align-items-center {{isset($doctor['timings'][$day+1]) ? '' : 'border-top mt-2 pt-2 border-light-subtle'  }}">				
+					<div class="row justify-content-between align-items-center {{isset($doctor['timings'][$day+1]) ? '' : 'border-light-subtle'  }}">				
 							
 						<span class="fw-bold col-lg-3">Dr. {{$doctor['name']}}</span>
 							
