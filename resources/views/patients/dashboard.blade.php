@@ -26,37 +26,33 @@ $timezone = 'Asia/Kolkata';
         <h3 class="title col-auto">Doctors</h3>
         <p class="text-descripstion secondary-text mb-0 col-auto" id="time"></p>
     </div>
-    @foreach ($doctor_arr as $doctor)
-        @if (isset($doctor['timings'][$day]))
-            <div
-                class="single-goal single-goal-one {{ isset($doctor['timings'][$day + 1]) ? '' : 'border-top mt-2 pt-2 border-light-subtle' }}">
-                <div class="row align-items-center">
-                    <div class="col-lg-6 pr-0">
-                        <div class="details text-secondary">
-                            <h6>Dr. {{ $doctor['name'] }}</h6>
+    <div class="row gx-3 row-cols-1  row-cols-lg-3">
+        @foreach ($doctor_arr as $doctor)
+            @if (isset($doctor['timings'][$day]))
+                <div class="col">
+                    <div class="secondary-text card min-h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-secondary"> Dr. {{ $doctor['name'] }}</h5>
+                            @foreach ($doctor['timings'][$day] as $slot => $timing)
+                                <div class="row my-2 justify-content-between align-items-center">
+                                    <div class="col-auto">
+                                        <span class="d-block secondary-text">{{ $timing['start_hour'] }} -
+                                            {{ $timing['end_hour'] }}</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="user_dashboard/booking/{{ $doctor['id'] }}/{{ $timing['slot_id'] }}"
+                                            id="doc_{{ $doctor['id'] }}_{{ $timing['slot_id'] }}"
+                                            data-endtime="<?php echo strtotime(date('Y-m-d ' . $timing['end_hour'] . '')); ?>"
+                                            class="btn btn-secondary btn-rounded btn-sm book">Book</a>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                    <div class="col-lg-6 pr-0">
-                        @foreach ($doctor['timings'][$day] as $slot => $timing)
-                            <div class="row my-2 justify-content-between">
-                                <div class="col-auto">
-                                    <span class="d-block">{{ $timing['start_hour'] }} - {{ $timing['end_hour'] }}</span>
-                                </div>
-                                <div class="col-auto">
-                                    <a href="user_dashboard/booking/{{ $doctor['id'] }}/{{ $timing['slot_id'] }}"
-                                        id="doc_{{ $doctor['id'] }}_{{ $timing['slot_id'] }}"
-                                        data-endtime="<?php echo strtotime(date('Y-m-d ' . $timing['end_hour'] . '')); ?>"
-                                        class="btn btn-secondary btn-rounded btn-sm book">Book</a>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
                 </div>
-            </div>
-        @endif
-    @endforeach
-
-
+            @endif
+        @endforeach
+    </div>
     <!-- balance End -->
 @endsection
 

@@ -1,6 +1,7 @@
 .form-control {
   background: #FFFFFF;
   border: 1px solid #01BDB2;
+
   &:focus {
     background: #FFFFFF;
   }
@@ -22,7 +23,17 @@
 
   [data-title]:before {
     content: attr(data-title);
-  
+
     flex: 1 1 auto !important;
   }
+}
+
+.table-light {
+  --bs-table-color: #142959;
+  --bs-table-bg: #e9ecef;
+  --bs-table-border-color: #01BDB2;
+}
+
+.list-group {
+  --bs-list-group-border-color: #ccc;
 }
