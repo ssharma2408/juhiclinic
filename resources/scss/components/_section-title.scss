@@ -4,6 +4,7 @@
     color: $secondary;
     font-size: 24px;
     font-family: 'Jost', sans-serif;
+
     h1,
     h2,
     h3,
@@ -11,7 +12,8 @@
         margin: 0;
         display: block;
         position: relative;
-        font-size: 24px;
+
+        font-size: var(--title);
         font-weight: 600;
     }
 
@@ -40,6 +42,7 @@
 
     }
 }
+
 .sub-title {
-    font-size: 18px;
+    font-size: 18px !important;
 }
