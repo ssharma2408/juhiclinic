@@ -185,7 +185,7 @@
 
             $(".work_status").each(function() {
                 if ($(this).text() == "Started ...") {
-                    $(this).parent().parent().find(".btn_update").attr("disabled", false);
+                    $(this).parents().eq(3).find(".btn_update").attr("disabled", false);
                     var slot_id = $(this).attr("id").split("_")[2];
                     $("#pause_" + slot_id).show();
                     startTimer();
@@ -269,7 +269,7 @@
 
         $(".work_status").click(function() {
             $(this).text("Started ...").attr('disabled', true);
-            var ele_id = $(this).parent().parent().attr("id").split("_")[2];
+            var ele_id = $(this).parents().eq(3).attr("id").split("_")[2];
             var pause_id = $(this).next(".pause").attr("id");
 
             var slot_id = $(this).attr('id').split("_")[2];
